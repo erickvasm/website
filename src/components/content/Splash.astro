@@ -4,14 +4,9 @@ const { splashTitle, ref } = Astro.props;
 import Buttom from "~/components/ui/Buttom.astro";
 ---
 
-<section class="relative h-full bg-black header__hero">
+<section class="relative h-screen bg-black header__hero">
   <section class="starts__hero">
-    <img
-      src="https://i.ibb.co/LkRtmzR/stars.png"
-      alt="stars"
-      class="hero__img"
-      loading="lazy"
-    />
+    <div class="hero__img" aria-hidden="true"></div>
   </section>
 
   <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40"></div>
@@ -29,38 +24,38 @@ import Buttom from "~/components/ui/Buttom.astro";
 
 <noscript>
   <style>
-      #splash-bg-fallback {
-          display: block;
-      }
+    #splash-bg-fallback {
+      display: block;
+    }
   </style>
 </noscript>
 
 <style>
-    @keyframes float {
-        0% {
-            transform: translate3d(0, 0, 0);
-        }
-
-        100% {
-            transform: translate3d(0, 30px, 0);
-        }
+  @keyframes float {
+    0% {
+      transform: translate3d(0, 0, 0);
     }
 
+    100% {
+      transform: translate3d(0, 30px, 0);
+    }
+  }
+
+  picture {
+    animation: float linear 2.5s infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     picture {
-        animation: float linear 2.5s infinite alternate;
+      @apply animate-none;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-        picture {
-            @apply animate-none;
-        }
-
-        :global(#starfield) {
-            @apply hidden;
-        }
-
-        #splash-bg-fallback {
-            @apply block;
-        }
+    :global(#starfield) {
+      @apply hidden;
     }
+
+    #splash-bg-fallback {
+      @apply block;
+    }
+  }
 </style>

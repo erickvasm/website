@@ -1,18 +1,14 @@
 ---
-let year = 2026;
+const year = new Date().getFullYear();
 ---
+
 <footer class="relative flex items-center justify-center h-64">
   <div class="flex flex-col items-center">
     <section class="starts__hero">
-      <img
-        src="https://i.ibb.co/LkRtmzR/stars.png"
-        alt="stars"
-        class="hero__img"
-      />
+      <div class="hero__img" aria-hidden="true"></div>
     </section>
     <section class="flex footer__description">
-      <h2>Mobile-first design</h2>
-      <h2>© {year} Erick Vasquez</h2>
+      <h2>© {year} Erick Vásquez Murillo</h2>
     </section>
   </div>
 </footer>

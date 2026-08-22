@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.erickvasm.com/sitemap-index.xml
+Host: https://www.erickvasm.com

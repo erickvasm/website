@@ -2,24 +2,33 @@
 import { getCollection } from "astro:content";
 import ContentSection from "./ContentSection.astro";
 import PortfolioCard from "./PortfolioCard.astro";
+import { t, type Locale } from "~/i18n/ui";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
 
 const featuredSites = await getCollection(
   "portfolio",
-  ({ data }) => "featured" in data
+  ({ data }) => "featured" in data,
 );
 const orderedSites = featuredSites.sort(
-  (a, b) => a.data.featured! - b.data.featured!
+  (a, b) => a.data.featured! - b.data.featured!,
 );
 ---
 
-<ContentSection title="PORTFOLIO" id="portfolio">
-  <Fragment slot="lead">
-    These are some of my <span class="text-primary">projects</span>{" "}
-  </Fragment>
+<ContentSection title={ui.portfolio.title} id="portfolio">
+  <Fragment slot="lead" set:html={ui.portfolio.lead} />
   <div class="max-w-6xl space-y-2">
     <div class="grid grid-cols-1 gap-5 lg:grid-cols-3 md:col-start-2">
-      {orderedSites.map((site) =>
-        <PortfolioCard site={site} />)}
+      {
+        orderedSites.map((site) => (
+          <PortfolioCard site={site} locale={locale} />
+        ))
+      }
     </div>
   </div>
 </ContentSection>

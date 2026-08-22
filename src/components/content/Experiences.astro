@@ -1,0 +1,59 @@
+---
+import ContentSection from "./ContentSection.astro";
+import { t, type Locale } from "~/i18n/ui";
+import { experiences as experiencesByLocale } from "~/i18n/content/experiences";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+const experiences = experiencesByLocale[locale];
+---
+
+<ContentSection title={ui.experiences.title} id="experiences">
+  <Fragment slot="lead" set:html={ui.experiences.lead} />
+  <div class="max-w-3xl mx-auto">
+    <div class="relative border-l-2 border-default ml-4 space-y-8">
+      {
+        experiences.map((exp) => (
+          <div class="relative pl-8">
+            <div class="absolute w-4 h-4 bg-primary rounded-full -left-[10px] top-1 border-4 border-default" />
+            <article class="experience-card p-6 border border-default bg-offset rounded-lg">
+              <header class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+                <h3 class="text-xl font-bold">{exp.role}</h3>
+                <span class="text-sm text-text-offset font-medium">
+                  {exp.company}
+                </span>
+              </header>
+              <time class="text-sm text-text-offset italic">{exp.period}</time>
+              <ul class="mt-3 space-y-2 text-sm leading-relaxed text-article list-disc pl-5">
+                {exp.bullets.map((bullet) => (
+                  <li>{bullet}</li>
+                ))}
+              </ul>
+              <footer class="flex flex-wrap gap-2 mt-4">
+                {exp.technologies.map((tech) => (
+                  <span class="px-3 py-1 text-xs border border-default rounded-full text-text-offset">
+                    {tech}
+                  </span>
+                ))}
+              </footer>
+            </article>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</ContentSection>
+
+<style>
+  .experience-card {
+    transition: transform 0.2s ease;
+  }
+
+  .experience-card:hover {
+    transform: translateX(4px);
+  }
+</style>

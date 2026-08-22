@@ -1,0 +1,13 @@
+{
+  "title": "Gym API",
+  "description": {
+    "es": "API REST para gestión de gimnasio con autenticación, rutinas y seguimiento de progreso.",
+    "en": "REST API for gym management with authentication, workout routines and progress tracking."
+  },
+  "image": "../../assets/portfolio/apimunicipal.png",
+  "technologies": "Java & Spring Boot",
+  "url": null,
+  "github": "https://github.com/erickvasm/gym-api",
+  "slug": "gym-api",
+  "featured": 2
+}

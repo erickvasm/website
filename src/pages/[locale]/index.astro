@@ -1,0 +1,35 @@
+---
+import Layout from "~/layouts/Layout.astro";
+import Contact from "~/components/content/Contact.astro";
+import About from "~/components/content/About.astro";
+import Portfolio from "~/components/content/Portfolio.astro";
+import Experiences from "~/components/content/Experiences.astro";
+import Travels from "~/components/content/Travels.astro";
+import Splash from "~/components/content/Splash.astro";
+import { locales, t, type Locale } from "~/i18n/ui";
+import { personGraph } from "~/data/person";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: Locale };
+const ui = t(locale);
+---
+
+<Layout
+  title={ui.meta.homeTitle}
+  description={ui.meta.homeDescription}
+  slug={locale}
+  jsonLd={personGraph}
+  locale={locale}
+>
+  <Splash splashTitle={ui.splash.home} ref={`/${locale}#about`} />
+  <div class="px-8 py-32 space-y-24">
+    <About locale={locale} />
+    <Experiences locale={locale} />
+    <Portfolio locale={locale} />
+    <Travels locale={locale} />
+    <Contact locale={locale} />
+  </div>
+</Layout>

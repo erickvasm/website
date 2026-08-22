@@ -1,0 +1,123 @@
+---
+import PaperLayout from "~/layouts/PaperLayout.astro";
+import { getEntry } from "astro:content";
+import { personJsonLd } from "~/data/person";
+
+const entry = await getEntry("research", "geospatial-classification");
+const title = entry.data.title;
+const description = entry.data.description;
+
+const scholarlyArticleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  headline: title,
+  description: description,
+  datePublished: entry.data.date,
+  author: [
+    { "@type": "Person", name: "Luis Eduardo Amaya-Briceño" },
+    personJsonLd,
+  ],
+  about: [
+    "Geospatial data analysis",
+    "Principal Component Analysis",
+    "k-means clustering",
+  ],
+  isPartOf: { "@type": "Event", name: entry.data.venue },
+  url: "https://www.erickvasm.com/papers/geospatial-classification",
+};
+---
+
+<PaperLayout
+  title={title}
+  description={description}
+  slug="geospatial-classification"
+  jsonLd={scholarlyArticleJsonLd}
+>
+  <p class="author">
+    Luis Eduardo Amaya-Brice&ntilde;o<sup>1</sup> &amp; Erick Alfredo V&aacute;squez
+    Murillo<sup>2</sup><br />
+    <sup>1</sup>University of Costa Rica - Guanacaste Campus,
+    luis.amaya@ucr.ac.cr<br />
+    <sup>2</sup>Yaipan S.A, contact@erickvasm.com
+  </p>
+
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>
+      In recent decades, the collection and use of geospatial data has generated
+      interest in various fields, including economics, biology, and health. In
+      our paper, we present our experience collecting, cleaning, and
+      transforming such data. We then used it to classify Costa Rica's districts
+      and cantons. The results were compared with other indices developed by
+      government agencies in the country.
+    </p>
+    <p class="keywords">
+      <strong>Keywords:</strong> geospatial data, google cloud, human development
+      index, principal components, classification
+    </p>
+  </div>
+
+  <h2>Introduction</h2>
+
+  <p>
+    Every day, within the analysis of data, the use of geospatial data becomes
+    more relevant, these allow us to show a more complete image of the events
+    [4] in our environment. They are not always easily accessible, either due to
+    the cost or access of them or the computational management.
+  </p>
+
+  <p>
+    Using geospatial data, we share our experience in the characterization of
+    the districts and cantons of Costa Rica. This with the aim of being able to
+    contrast our segmentation with existing groupings at the cantonal level,
+    such as the human development index [3] or the consumer confidence index
+    prepared by the University of Costa Rica [2]. To do this, we collect
+    information related to social variables (schools, hospitals), economic
+    variables (bars, restaurants, malls, banks) and religious variables
+    (churches), this information was provided by Google Maps [1], we used a
+    Google Cloud API, which returns the values found for a variable indicated in
+    that area based on a center and radius. In our process, we made a circle
+    overlay of the entire country. The process generated millions of records,
+    which were cleaned and transformed by us, to build a summary table of
+    information that served as input for subsequent statistical analysis.
+  </p>
+
+  <p>
+    A principal component analysis and a classification using k-means were
+    performed. The results found allow us to observe the formation of classes of
+    districts that are comparable with what was observed or that can be
+    validated with instruments such as the aforementioned indexes.
+  </p>
+
+  <p class="conference">
+    <em
+      >5 April, 9:00 - 9:20, Room 13.2<br />
+      XXXII Meeting of CLAD, Porto, 3 &ndash; 5 April 2025</em
+    >
+  </p>
+
+  <h2>References</h2>
+
+  <ol>
+    <li>
+      Google Cloud. Google cloud platform, 2024. Accessed on 8 January 2024.
+    </li>
+    <li>
+      Universidad de Costa Rica (UCR). Informe del &Iacute;ndice de confianza
+      del consumidor (ICC), febrero 2023, 2023. Accessed on 8 January 2024.
+    </li>
+    <li>
+      Programa de las Naciones Unidas para el Desarrollo (PNUD). Atlas de
+      desarrollo humano cantonal, 2024. Accessed on 8 January 2024.
+    </li>
+    <li>IBM. Geospatial data, 2024. Accessed on 8 January 2024.</li>
+  </ol>
+
+  <p class="no-indent link">
+    <a
+      href="https://sites.google.com/view/joclad2025-en/scientific-program"
+      target="_blank"
+      rel="noopener noreferrer">Scientific Program &rarr;</a
+    >
+  </p>
+</PaperLayout>

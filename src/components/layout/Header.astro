@@ -1,20 +1,30 @@
 ---
 import { Icon } from "astro-icon/components";
-import ThemeSwitcher from "~/components/content/ThemeSwitcher.astro";
+import { t, type Locale } from "~/i18n/ui";
+
+export interface Props {
+  fixed?: boolean;
+  locale?: Locale;
+}
+
+const { fixed = false, locale = "es" } = Astro.props;
+const ui = t(locale);
 
 const navItems = [
-  { title: "About", url: "/#about", target: "" },
-  { title: "Portfolio", url: "/#portfolio", target: "" },
-  { title: "Blog", url: "/blog", target: "" },
-  { title: "Contact", url: "/#contact", target: "" }
+  { title: ui.nav.about, url: `/${locale}#about`, target: "" },
+  { title: ui.nav.blog, url: `/${locale}/blog`, target: "" },
+  { title: ui.nav.contact, url: `/${locale}#contact`, target: "" },
 ];
 ---
 
 <header
   id="page__header"
-  class="absolute bottom-0 z-10 flex items-center justify-between w-full px-8 py-4 border-b border-transparent mb-12"
+  class:list={[
+    "z-10 flex items-center justify-between w-full px-8 py-4 border-b border-transparent",
+    fixed ? "fixed top-0 bg-default" : "absolute bottom-0 mb-12",
+  ]}
 >
-  <a class="flex items-center gap-3 hover:!text-default" href="/">
+  <a class="flex items-center gap-3 hover:!text-default" href={`/${locale}`}>
     <h1>erickvasm</h1>
   </a>
   <div>
@@ -40,7 +50,6 @@ const navItems = [
       >
         <Icon name="mdi:menu" class="size-8" />
       </button>
-      <ThemeSwitcher />
     </div>
     <div id="menu-modal" class="hidden modal" aria-hidden="true">
       <div class="fixed inset-0 px-8 py-4 bg-default text-default">
@@ -117,19 +126,19 @@ const navItems = [
 
 <noscript>
   <style>
-      #open-nav-button {
-          display: none;
-      }
+    #open-nav-button {
+      display: none;
+    }
   </style>
 </noscript>
 
 <style>
-    .fixed-header {
-        @apply fixed top-0 bottom-auto;
-        @apply text-default bg-default border-default;
-    }
+  .fixed-header {
+    @apply fixed top-0 bottom-auto;
+    @apply text-default bg-default border-default;
+  }
 
-    .modal.is-open {
-        @apply block;
-    }
+  .modal.is-open {
+    @apply block;
+  }
 </style>

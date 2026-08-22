@@ -1,0 +1,27 @@
+---
+import Layout from "./Layout.astro";
+import "~/styles/latex-paper.css";
+
+export interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  jsonLd?: Record<string, any>;
+}
+
+const { title, description, slug, jsonLd } = Astro.props;
+---
+
+<Layout
+  title={title}
+  description={description}
+  slug={`papers/${slug}`}
+  jsonLd={jsonLd}
+  headerFixed
+  locale="en"
+>
+  <div class="latex-paper max-w-3xl mx-auto px-8 py-32">
+    <p class="no-indent"><a href="/en/blog">&larr; Back to blog</a></p>
+    <slot />
+  </div>
+</Layout>

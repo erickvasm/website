@@ -2,54 +2,97 @@
 export interface Props {
   title: string;
   description: string;
+  slug?: string;
+  jsonLd?: Record<string, any>;
+  locale?: "es" | "en";
 }
 
-const url = "https://www.erickvasm.com";
-const image = new URL("https://i.ibb.co/WF4wt7n/erickvasm.png", url);
+const { title, description, slug, jsonLd, locale } = Astro.props;
 
-const { title, description } = Astro.props;
+const siteUrl = "https://www.erickvasm.com";
+const pageUrl = slug ? `${siteUrl}/${slug}` : Astro.url.href;
+const image = new URL("/og-default.png", siteUrl);
+const fullTitle = `${title} | erickvasm`;
+
+const ogLocaleMap = { es: "es_CR", en: "en_US" } as const;
+const ogLocale = locale ? ogLocaleMap[locale] : "en_US";
+
+const isLocalizedRoute =
+  !!locale && !!slug && (slug === locale || slug.startsWith(`${locale}/`));
+const localizedSlug = (targetLocale: "es" | "en") =>
+  slug.replace(new RegExp(`^${locale}`), targetLocale);
+const hreflangEs = isLocalizedRoute
+  ? `${siteUrl}/${localizedSlug("es")}`
+  : undefined;
+const hreflangEn = isLocalizedRoute
+  ? `${siteUrl}/${localizedSlug("en")}`
+  : undefined;
 ---
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <script is:inline>
+    document.documentElement.dataset.theme = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches
+      ? "dark"
+      : "light";
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/favicon.svg" sizes="any" />
-  <title>{title}</title>
-  <meta property="og:title" content="erickvasm" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={image} />
-  <meta property="og:url" content={url} />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://res.cloudinary.com" />
+  <title>{fullTitle}</title>
   <meta name="description" content={description} />
-  <meta name="author" content="Erick Vasquez" />
+  <meta name="author" content="Erick Vásquez Murillo" />
   <meta name="copyright" content="ISC" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@erickvasm" />
   <meta
     name="robots"
     content="index, follow, max-snippet:-1, max-image-preview:large"
   />
-  <meta name="canonical" content={url} />
+  <link rel="canonical" href={pageUrl} />
+
+  {
+    isLocalizedRoute && (
+      <>
+        <link rel="alternate" hreflang="es" href={hreflangEs} />
+        <link rel="alternate" hreflang="en" href={hreflangEn} />
+        <link rel="alternate" hreflang="x-default" href={hreflangEs} />
+      </>
+    )
+  }
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:site_name" content="erickvasm" />
+  <meta property="og:locale" content={ogLocale} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  {
+    jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )
+  }
 
   <script is:inline>
-    const themeSaved = localStorage.getItem("theme");
-
-    if (themeSaved) {
-      document.documentElement.dataset.theme = themeSaved;
-    } else {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
-    }
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
-        if (!localStorage.getItem("theme")) {
-          document.documentElement.dataset.theme = event.matches
-            ? "dark"
-            : "light";
-        }
+        document.documentElement.dataset.theme = event.matches
+          ? "dark"
+          : "light";
       });
   </script>
 </head>

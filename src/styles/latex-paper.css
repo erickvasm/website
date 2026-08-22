@@ -1,0 +1,117 @@
+.latex-paper {
+  font-family: "Latin Modern", "Georgia", "Times New Roman", serif;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.latex-paper .author {
+  font-variant-caps: small-caps;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.latex-paper .abstract {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.latex-paper .abstract h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.latex-paper .keywords {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.latex-paper .conference {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-text-offset);
+}
+
+.latex-paper .link {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+.latex-paper .link a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.latex-paper .link a:hover {
+  opacity: 0.8;
+}
+
+.latex-paper h2 {
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.latex-paper p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.latex-paper ol,
+.latex-paper ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.latex-paper li {
+  margin-bottom: 0.5rem;
+}
+
+.latex-paper .definition {
+  counter-increment: definition;
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 3px solid var(--color-primary);
+  font-style: normal;
+}
+
+.latex-paper .definition::before {
+  content: "Definition " counter(definition) ". ";
+  font-weight: 700;
+}
+
+.latex-paper .theorem {
+  counter-increment: theorem;
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 3px solid var(--color-secondary);
+  font-style: italic;
+}
+
+.latex-paper .theorem::before {
+  content: "Theorem " counter(theorem) ". ";
+  font-weight: 700;
+  font-style: normal;
+}
+
+.latex-paper .proof {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-left: 3px solid var(--color-text-offset);
+  font-style: normal;
+}
+
+.latex-paper .proof::before {
+  content: "Proof. " attr(title) " ";
+  font-style: italic;
+}

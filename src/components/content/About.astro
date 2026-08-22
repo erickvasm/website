@@ -1,20 +1,22 @@
 ---
 import ContentSection from "./ContentSection.astro";
-import Buttom from "~/components/ui/Buttom.astro";
+import { t, type Locale } from "~/i18n/ui";
+import { about } from "~/i18n/content/about";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+const content = about[locale];
 ---
 
-<ContentSection title="ABOUT" id="about">
+<ContentSection title={ui.about.title} id="about">
   <Fragment slot="lead">
-    <span class="text-primary">I'm Erick Vasquez, a Software Engineer</span>
+    <span class="text-primary">{content.highlight}</span>
     <br />
     <br />
-    I’ve cultivated compromise and responsibility managing tasks effectively.
+    {content.rest}
   </Fragment>
-  <Buttom
-    ref="https://pdfupload.io/docs/dc748424"
-    title="Downloand CV"
-    target="_blank"
-    icon="mdi:file"
-    class="grid grid-cols0"
-  />
 </ContentSection>

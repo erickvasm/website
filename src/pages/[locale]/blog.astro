@@ -1,0 +1,73 @@
+---
+import Layout from "~/layouts/Layout.astro";
+import ContentSection from "~/components/content/ContentSection.astro";
+import { getArticles } from "~/api/devto/getArticles";
+import Article from "~/components/content/ArticleCard.astro";
+import Papers from "~/components/content/Papers.astro";
+import Splash from "~/components/content/Splash.astro";
+import { locales, t, type Locale } from "~/i18n/ui";
+
+export function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale }, props: { locale } }));
+}
+
+const { locale } = Astro.props as { locale: Locale };
+const ui = t(locale);
+
+const articles = await getArticles({ pages: 1, perPage: 8 });
+
+const blogJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Erick Vásquez Murillo Blog",
+  description: ui.meta.blogDescription,
+  url: `https://www.erickvasm.com/${locale}/blog`,
+  author: {
+    "@type": "Person",
+    "@id": "https://www.erickvasm.com/#person",
+    name: "Erick Vásquez Murillo",
+  },
+  blogPost: articles.map((article) => ({
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.description,
+    url: article.url,
+    datePublished: article.published_at,
+    image: article.cover_image,
+    author: {
+      "@type": "Person",
+      "@id": "https://www.erickvasm.com/#person",
+      name: "Erick Vásquez Murillo",
+    },
+  })),
+};
+---
+
+<Layout
+  title={ui.meta.blogTitle}
+  description={ui.meta.blogDescription}
+  slug={`${locale}/blog`}
+  jsonLd={blogJsonLd}
+  headerFixed
+  locale={locale}
+>
+  <Splash splashTitle={ui.splash.blog} ref={`/${locale}/blog#research`} />
+  <div class="px-8 py-32 space-y-24">
+    <Papers locale={locale} />
+    <ContentSection title={ui.articles.title} id="blog">
+      <section class="flex flex-wrap justify-center gap-4">
+        {
+          articles.map((article) => (
+            <Article
+              title={article.title}
+              description={article.description}
+              image={article.cover_image}
+              publishedAt={article.published_at}
+              url={article.url}
+            />
+          ))
+        }
+      </section>
+    </ContentSection>
+  </div>
+</Layout>

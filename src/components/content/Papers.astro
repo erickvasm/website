@@ -1,0 +1,90 @@
+---
+import { getCollection } from "astro:content";
+import ContentSection from "./ContentSection.astro";
+import { t, type Locale } from "~/i18n/ui";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+
+const entries = await getCollection("research");
+const sorted = [...entries].sort((a, b) =>
+  (b.data.date ?? "").localeCompare(a.data.date ?? ""),
+);
+
+const templates = entries.filter((entry) => entry.data.type === "template");
+const templatesJsonLd = templates.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: templates.map((entry, index) => ({
+        "@type": "CreativeWork",
+        position: index + 1,
+        name: entry.data.title,
+        description: entry.data.description,
+        url: entry.data.url,
+        author: entry.data.authors,
+        audience: {
+          "@type": "EducationalAudience",
+          educationalRole: "student",
+        },
+      })),
+    }
+  : undefined;
+---
+
+<ContentSection title={ui.research.title} id="research">
+  <Fragment slot="lead" set:html={ui.research.lead} />
+  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+    {
+      sorted.map((entry) => {
+        const href =
+          entry.data.type === "paper"
+            ? `/papers/${entry.data.slug}`
+            : entry.data.url;
+        const target = entry.data.type === "template" ? "_blank" : undefined;
+        return (
+          <a
+            href={href}
+            target={target}
+            rel={target ? "noopener noreferrer" : undefined}
+            class="paper-card p-6 border border-default bg-offset rounded-lg"
+          >
+            <header class="mb-3">
+              <h3 class="text-lg font-bold">{entry.data.title}</h3>
+              {entry.data.date && (
+                <time class="text-sm text-text-offset italic">
+                  {entry.data.date}
+                </time>
+              )}
+            </header>
+            <p class="text-sm leading-relaxed text-article">
+              {entry.data.description}
+            </p>
+          </a>
+        );
+      })
+    }
+  </div>
+  {
+    templatesJsonLd && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(templatesJsonLd)}
+      />
+    )
+  }
+</ContentSection>
+
+<style>
+  .paper-card {
+    transition: transform 0.2s ease;
+  }
+
+  .paper-card:hover {
+    transform: translateY(-4px);
+  }
+</style>

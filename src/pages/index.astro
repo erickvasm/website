@@ -1,39 +1,33 @@
 ---
-import Head from "~/components/layout/Head.astro";
-import Skills from "~/components/content/Skills.astro";
+import Layout from "~/layouts/Layout.astro";
+import LocaleRedirect from "~/components/i18n/LocaleRedirect.astro";
 import Contact from "~/components/content/Contact.astro";
-import Footer from "~/components/layout/Footer.astro";
-import Header from "~/components/layout/Header.astro";
 import About from "~/components/content/About.astro";
 import Portfolio from "~/components/content/Portfolio.astro";
+import Experiences from "~/components/content/Experiences.astro";
+import Travels from "~/components/content/Travels.astro";
 import Splash from "~/components/content/Splash.astro";
-import "~/styles/index.css";
+import { t } from "~/i18n/ui";
+import { personGraph } from "~/data/person";
+
+const locale = "es" as const;
+const ui = t(locale);
 ---
 
-<html lang="en" class="h-full motion-safe:scroll-smooth" data-theme="dark">
-<Head title="Erick Vasquez's Portfolio"
-      description="Welcome to my digital portfolio! My name is Erick Vasquez." />
-
-<!-- 
-  _   _          _   _             _____   _                            _                                                                            _                                                              _          ___   
- | | | |   ___  | | | |   ___     |_   _| | |__     ___   _ __    ___  | |  
- | |_| |  / _ \ | | | |  / _ \      | |   | '_ \   / _ \ | '__|  / _ \ | |    
- |  _  | |  __/ | | | | | (_) |     | |   | | | | |  __/ | |    |  __/ |_|     
- |_| |_|  \___| |_| |_|  \___/      |_|   |_| |_|  \___| |_|     \___| (_)    
- 
--->
-
-<body
-  class="h-full overflow-x-hidden text-base bg-default text-default selection:bg-secondary selection:text-white"
+<Layout
+  title={ui.meta.homeTitle}
+  description={ui.meta.homeDescription}
+  slug="es"
+  jsonLd={personGraph}
+  locale={locale}
 >
-<Header />
-<Splash splashTitle="Hi There!" ref="/#about"/>
-<div class="px-8 py-32 space-y-24">
-  <About />
-  <Skills />
-  <Portfolio />
-  <Contact />
-</div>
-<Footer />
-</body>
-</html>
+  <LocaleRedirect />
+  <Splash splashTitle={ui.splash.home} ref="/es#about" />
+  <div class="px-8 py-32 space-y-24">
+    <About locale={locale} />
+    <Experiences locale={locale} />
+    <Portfolio locale={locale} />
+    <Travels locale={locale} />
+    <Contact locale={locale} />
+  </div>
+</Layout>

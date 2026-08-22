@@ -1,31 +1,37 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import type { Locale } from "~/i18n/ui";
+import { Image } from "astro:assets";
 
 export interface Props {
   site: CollectionEntry<"portfolio">;
+  locale: Locale;
 }
 
-const { site } = Astro.props;
-const widths = 450;
+const { site, locale } = Astro.props;
 const sizes = "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw";
 ---
 
-<a class="group aspect-video hover:!text-default" href={`/portfolio/${site.data.slug}`}>
+<a
+  class="group aspect-video hover:!text-default"
+  href={`/${locale}/portfolio/${site.data.slug}`}
+>
   <figure class="relative w-full h-full overflow-hidden rounded-lg">
     <picture>
-      <img
+      <Image
         class="object-cover w-full h-full transition-all duration-300 bg-cover group-hover:scale-110 group-hover:opacity-20 group-focus:scale-110 group-focus:opacity-20"
         src={site.data.image}
-        width={widths}
+        widths={[225, 450, 900]}
         sizes={sizes}
+        loading="lazy"
         decoding="async"
-        onload="this.style.backgroundImage='none'"
         alt={`A screenshot of ${site.data.title}`}
       />
     </picture>
     <figcaption class="absolute inset-0">
       <div
-        class="flex flex-col items-center justify-center h-full gap-2 transition-all duration-300 opacity-0 group-hover:opacity-100 group-focus:opacity-100">
+        class="flex flex-col items-center justify-center h-full gap-2 transition-all duration-300 opacity-0 group-hover:opacity-100 group-focus:opacity-100"
+      >
         <h3 class="text-xl font-extrabold text-center uppercase">
           {site.data.title}
         </h3>
