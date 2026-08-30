@@ -2,57 +2,91 @@
 const { title, description, image, publishedAt, url } = Astro.props;
 
 const formatDate = (dateString: string): string => {
-  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 ---
 
 <section>
-  <div class="article-card max-w-xs flex flex-col items-center gap-4 border border-default bg-offset rounded-lg">
-    <a href={url} target="_blank">
-      <img src={image} alt={title} class="article-card__image" />
-      <div class="article-card__content p-2">
+  <div
+    class="article-card max-w-xs flex flex-col items-center gap-4 border border-default bg-offset rounded-lg"
+  >
+    <a class="flex flex-col h-full w-full" href={url} target="_blank">
+      {
+        image ? (
+          <img
+            src={image}
+            alt={title}
+            width="350"
+            height="160"
+            loading="lazy"
+            class="article-card__image"
+          />
+        ) : (
+          <div
+            class="article-card__image article-card__image--fallback"
+            aria-hidden="true"
+          >
+            <span class="gradient-text">erickvasm</span>
+          </div>
+        )
+      }
+      <div class="article-card__content flex flex-col flex-1 p-2">
         <h3 class="article-card__title">
           <span>{title}</span>
         </h3>
-        <p class="article-card__description">{description}</p>
-        <p class="article-card__date">Published on {formatDate(publishedAt)}</p>
+        <p class="article-card__description line-clamp-3">{description}</p>
+        <p class="article-card__date mt-auto pt-2">
+          Published on {formatDate(publishedAt)}
+        </p>
       </div>
     </a>
   </div>
 </section>
 
 <style>
-    .article-card {
-        width: 350px;
-        height: 320px;
-        overflow: hidden;
-        transition: transform 0.3s;
-    }
+  .article-card {
+    width: 350px;
+    min-height: 320px;
+    transition: transform 0.3s;
+  }
 
-    .article-card:hover {
-        transform: translateY(-5px);
-    }
+  .article-card:hover {
+    transform: translateY(-5px);
+  }
 
-    .article-card__title {
-        font-size: 1.25rem;
-        margin: 0;
-    }
+  .article-card__title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
 
-    .article-card__image {
-        width: 100%;
-        height: 50%;
-        object-fit: cover;
-    }
+  .article-card__image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
 
-    .article-card__description {
-        font-size: 0.9rem;
-        color: var(--color-article);
-        margin: 10px 0;
-    }
+  .article-card__image--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background-offset);
+    font-size: 1.5rem;
+    font-weight: 800;
+  }
 
-    .article-card__date {
-        font-size: 0.8rem;
-        color: var(--color-text-offset);
-    }
+  .article-card__description {
+    font-size: 0.9rem;
+    color: var(--color-article);
+    margin: 10px 0;
+  }
+
+  .article-card__date {
+    font-size: 0.8rem;
+    color: var(--color-text-offset);
+  }
 </style>

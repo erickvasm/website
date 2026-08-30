@@ -1,0 +1,9 @@
+{
+  "type": "paper",
+  "title": "Classification of districts in Costa Rica using geospatial data",
+  "description": "Geospatial data analysis and classification of Costa Rica's districts using PCA and k-means clustering.",
+  "date": "2025-04",
+  "slug": "geospatial-classification",
+  "authors": ["Luis Eduardo Amaya-Briceño", "Erick Vásquez Murillo"],
+  "venue": "XXXII Meeting of CLAD / JOCLAD 2025, Porto"
+}

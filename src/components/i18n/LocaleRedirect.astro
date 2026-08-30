@@ -1,0 +1,24 @@
+---
+
+---
+
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem("preferredLocale");
+      if (stored === "en") {
+        location.replace("/en");
+        return;
+      }
+      if (stored === "es") {
+        return;
+      }
+      var lang = (navigator.language || "es").toLowerCase();
+      var target = lang.indexOf("en") === 0 ? "en" : "es";
+      localStorage.setItem("preferredLocale", target);
+      if (target === "en") {
+        location.replace("/en");
+      }
+    } catch (e) {}
+  })();
+</script>

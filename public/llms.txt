@@ -1,0 +1,26 @@
+# Erick Vásquez Murillo
+
+> Backend Engineer from Costa Rica (Java, Spring Boot, Vert.x, Node.js, TypeScript), applied-research enthusiast (geospatial data, applied AI). Works at Yaipan building microservices and enterprise backend systems for financial and ERP environments.
+
+## About
+
+- [About](https://www.erickvasm.com/es#about): Bio, background and core stack.
+- [Experience](https://www.erickvasm.com/es#experiences): Backend Engineer at Yaipan; volunteer technical lead at Awaq NGO.
+
+## Research
+
+- [Classification of districts in Costa Rica using geospatial data](https://www.erickvasm.com/papers/geospatial-classification): PCA and k-means clustering of Costa Rica's districts, presented at JOCLAD 2025 / XXXII Meeting of CLAD, Porto.
+- [UCR Guanacaste Beamer template](https://www.overleaf.com/latex/templates/universidad-de-costa-rica-sede-guanacaste-carrera-informatica-empresarial-beamer/mnpbpyzshxfd): Beamer presentation template for Universidad de Costa Rica's Informática Empresarial students and professors.
+- [UCR Guanacaste assignment template](https://www.overleaf.com/latex/templates/universidad-de-costa-rica-sede-guanacaste-carrera-informatica-empresarial/jnvmbhphcqnq): LaTeX template for assignments and research papers, co-authored with Luis Edo. Amaya-Briceño.
+
+## Portfolio
+
+- [Portfolio](https://www.erickvasm.com/es#portfolio): Zona Descarga, Gym API, Municipalidad de Carrillo virtual assistant (chatbot).
+
+## Contact
+
+- [GitHub](https://github.com/erickvasm)
+- [LinkedIn](https://www.linkedin.com/in/erickvasquezmurillo/)
+- [Dev.to](https://dev.to/erickvasm)
+- [ORCID](https://orcid.org/0000-0002-1414-3315)
+- Email: contact@erickvasm.com

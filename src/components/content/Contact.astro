@@ -1,43 +1,71 @@
 ---
 import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
 import ContentSection from "./ContentSection.astro";
+import { t, type Locale } from "~/i18n/ui";
+import avatar from "~/assets/images/avatar.png";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
 
 const links = [
-{
-  url: "https://github.com/erickvasm",
-  description: "GitHub",
-  name: "GitHub",
-  icon: "mdi:github"
+  {
+    url: "https://github.com/erickvasm",
+    description: "GitHub",
+    name: "GitHub",
+    icon: "mdi:github",
   },
-{
-  url: "https://www.linkedin.com/in/erickvasquezmurillo/",
-  description: "LinkedIn",
-  name: "LinkedIn",
-  icon: "mdi:linkedin"
+  {
+    url: "https://www.linkedin.com/in/erickvasquezmurillo/",
+    description: "LinkedIn",
+    name: "LinkedIn",
+    icon: "mdi:linkedin",
   },
-{
-  url: "mailto:contact@erickvasm.com",
-  description: "Astro's official website",
-  name: "Email",
-  icon: "mdi:mail"
-  }
+  {
+    url: "https://dev.to/erickvasm",
+    description: "Dev.to",
+    name: "Dev.to",
+    icon: "simple-icons:devdotto",
+  },
+  {
+    url: "https://orcid.org/0000-0002-1414-3315",
+    description: "ORCID",
+    name: "ORCID",
+    icon: "simple-icons:orcid",
+  },
+  {
+    url: "mailto:contact@erickvasm.com",
+    description: "Email",
+    name: "Email",
+    icon: "mdi:mail",
+  },
 ];
 ---
 
-<ContentSection title="CONTACT" id="contact">
-  <Fragment slot="lead">
-    You can contact me <span class="text-primary">here</span>
-  </Fragment>
+<ContentSection title={ui.contact.title} id="contact">
+  <Fragment slot="lead" set:html={ui.contact.lead} />
   <section>
-    <article class="flex flex-col items-center gap-4 p-6 border border-default bg-offset rounded-lg contact__card">
+    <article
+      class="flex flex-col items-center gap-4 p-6 border border-default bg-offset rounded-lg contact__card"
+    >
       <div>
-        <img src="https://avatars.githubusercontent.com/u/55751600?v=4" alt="profile" />
+        <Image
+          src={avatar}
+          width={125}
+          height={120}
+          loading="lazy"
+          alt="Erick Vásquez Murillo"
+        />
       </div>
-      <p class="text-xl font-bold text-center">Erick Vasquez</p>
-      <ul class="contact__card-list flex ">
+      <p class="text-xl font-bold text-center">Erick Vásquez Murillo</p>
+      <ul class="contact__card-list flex">
         {
           links.map((link) => (
-            <li class="flex items-center justify-center">
+            <li class="flex items-center">
               <a
                 class="flex items-center m-3 justify-center w-16 h-16 p-4 border-2 border-current rounded-full"
                 href={link.url}
@@ -58,36 +86,31 @@ const links = [
 </ContentSection>
 
 <style>
-    .contact__card {
-        width: 90%;
-        min-width: 300px;
-        max-width: 400px;
-        min-height: 150px;
-        height: auto;
-        margin: 15px auto;
-        padding: 15px;
-    }
+  .contact__card {
+    width: 95%;
+    min-width: 300px;
+    max-width: 900px;
+    min-height: 150px;
+    height: auto;
+    margin: 15px auto;
+    padding: 24px;
+  }
 
-    .contact__card img {
-        border-radius: 70px;
-        width: 125px;
-        height: 120px;
-        object-fit: cover;
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-    }
+  .contact__card :global(img) {
+    border-radius: 70px;
+    width: 125px;
+    height: 120px;
+    object-fit: cover;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  }
 
-    .contact__card-list {
-        flex-direction: column;
-        flex-wrap: wrap;
-        align-content: center;
-        justify-content: space-between;
-        align-items: flex-start;
-        list-style: none;
-    }
-
-    @media only screen and (min-width: 500px) {
-        .contact__card {
-            min-width: 300px;
-        }
-    }
+  .contact__card-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem 2rem;
+    list-style: none;
+  }
 </style>

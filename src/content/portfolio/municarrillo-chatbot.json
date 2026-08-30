@@ -1,0 +1,13 @@
+{
+  "title": "Asistente Virtual Municipalidad de Carrillo",
+  "description": {
+    "es": "Chatbot / asistente virtual implementado para la Municipalidad de Carrillo en 2022, para atención ciudadana.",
+    "en": "Chatbot / virtual assistant built for the Carrillo Municipality in 2022 for citizen support."
+  },
+  "image": "../../assets/portfolio/apimunicipal.png",
+  "technologies": "Node.js",
+  "url": "https://www.municarrillo.go.cr/implementacion-asistente-virtual-chatbot-ano-2022/",
+  "github": null,
+  "slug": "municarrillo-chatbot",
+  "featured": 4
+}

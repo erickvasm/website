@@ -1,0 +1,45 @@
+---
+import Head from "~/components/layout/Head.astro";
+import Header from "~/components/layout/Header.astro";
+import Footer from "~/components/layout/Footer.astro";
+import type { Locale } from "~/i18n/ui";
+import "@fontsource-variable/inter";
+import "~/styles/index.css";
+
+export interface Props {
+  title: string;
+  description: string;
+  slug?: string;
+  jsonLd?: Record<string, any>;
+  headerFixed?: boolean;
+  locale?: Locale;
+}
+
+const {
+  title,
+  description,
+  slug,
+  jsonLd,
+  headerFixed = false,
+  locale,
+} = Astro.props;
+---
+
+<html lang={locale ?? "es"} class="h-full motion-safe:scroll-smooth">
+  <Head
+    title={title}
+    description={description}
+    slug={slug}
+    jsonLd={jsonLd}
+    locale={locale}
+  />
+  <body
+    class="h-full overflow-x-hidden text-base bg-default text-default selection:bg-secondary selection:text-white"
+  >
+    <Header fixed={headerFixed} locale={locale} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

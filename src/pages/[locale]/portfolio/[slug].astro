@@ -1,0 +1,111 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Layout from "~/layouts/Layout.astro";
+import Splash from "~/components/content/Splash.astro";
+import Buttom from "~/components/ui/Buttom.astro";
+import { locales, t, type Locale } from "~/i18n/ui";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("portfolio");
+  return locales.flatMap((locale) =>
+    projects.map((project) => ({
+      params: { locale, slug: project.data.slug },
+      props: { locale },
+    })),
+  );
+}
+
+const { locale } = Astro.props as { locale: Locale };
+const { slug } = Astro.params;
+const ui = t(locale);
+
+const projects = await getCollection("portfolio");
+const project = projects.find((item) => item.data.slug === slug);
+
+if (!project) {
+  return Astro.redirect("/404");
+}
+
+const { title, description, technologies, url, github, image } = project.data;
+const localizedDescription = description[locale];
+
+const projectJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: title,
+  description: localizedDescription,
+  url:
+    url && url !== "N/A"
+      ? url
+      : `https://www.erickvasm.com/${locale}/portfolio/${slug}`,
+  image: new URL(image.src, "https://www.erickvasm.com").toString(),
+  author: {
+    "@type": "Person",
+    "@id": "https://www.erickvasm.com/#person",
+    name: "Erick Vásquez Murillo",
+  },
+  technologies: technologies,
+  keywords: technologies,
+};
+---
+
+<Layout
+  title={title}
+  description={localizedDescription}
+  slug={`${locale}/portfolio/${slug}`}
+  jsonLd={projectJsonLd}
+  locale={locale}
+>
+  <Splash splashTitle={title} ref={`#${slug}-id`} />
+  <div class="px-8 py-32 space-y-24">
+    <div id={`${slug}-id`} class="space-y-12">
+      <div
+        class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg group article__card"
+      >
+        <Image
+          src={image}
+          alt={`Screenshot of ${title}`}
+          width={900}
+          height={384}
+          class="w-full h-96 object-cover rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-105"
+        />
+      </div>
+
+      <div class="text-center space-y-4">
+        <p class="text-lg">{localizedDescription}</p>
+      </div>
+
+      <div class="text-center">
+        <p class="text-lg text-article">
+          {ui.portfolioDetail.technologies}: <span
+            class="text-primary font-medium">{technologies}</span
+          >
+        </p>
+      </div>
+
+      <div class="flex justify-center gap-6">
+        {
+          url && url !== "N/A" && (
+            <Buttom
+              title={ui.portfolioDetail.visitWeb}
+              icon="mdi:web"
+              target="_blank"
+              ref={url}
+            />
+          )
+        }
+        {
+          github && github !== "N/A" && (
+            <Buttom
+              title="GitHub"
+              icon="mdi:github"
+              target="_blank"
+              ref={github}
+            />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

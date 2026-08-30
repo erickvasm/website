@@ -1,0 +1,66 @@
+---
+import { Image } from "astro:assets";
+import ContentSection from "./ContentSection.astro";
+import { t, type Locale } from "~/i18n/ui";
+import nyc from "~/assets/travels/nyc.webp";
+import hollywood from "~/assets/travels/hollywood.webp";
+import madrid from "~/assets/travels/madrid.webp";
+import lisbon from "~/assets/travels/lisbon.webp";
+import barcelona from "~/assets/travels/barcelona.webp";
+import porto from "~/assets/travels/porto.webp";
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = t(locale);
+
+const altText: Record<Locale, string[]> = {
+  es: [
+    "Vista de Nueva York desde una azotea",
+    "Letrero de Hollywood desde el sendero, Los Ángeles",
+    "Calle de Madrid con la torre del Palacio de Cibeles al fondo",
+    "Torre de Belém, Lisboa",
+    "Casa Batlló de Gaudí, Barcelona",
+    "Techos y torre de la catedral, Porto",
+  ],
+  en: [
+    "New York City skyline from a rooftop",
+    "Hollywood sign from the hiking trail, Los Angeles",
+    "Street in Madrid with the Cibeles Palace tower in the background",
+    "Belém Tower, Lisbon",
+    "Casa Batlló by Gaudí, Barcelona",
+    "Rooftops and cathedral tower, Porto",
+  ],
+};
+
+const sources = [nyc, hollywood, madrid, lisbon, barcelona, porto];
+const images = sources.map((src, i) => ({ src, alt: altText[locale][i] }));
+---
+
+<ContentSection title={ui.travels.title} id="travels">
+  <Fragment slot="lead" set:html={ui.travels.lead} />
+  <div class="max-w-6xl mx-auto columns-2 md:columns-3 gap-4 space-y-4">
+    {
+      images.map((img) => (
+        <Image
+          src={img.src}
+          alt={img.alt}
+          widths={[300, 600, 900]}
+          sizes="(min-width: 768px) 33vw, 50vw"
+          loading="lazy"
+          class="travel-img"
+        />
+      ))
+    }
+  </div>
+</ContentSection>
+
+<style>
+  .travel-img {
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+</style>
