@@ -22,3 +22,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run format:check
       - run: pnpm run build
+        env:
+          DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
